@@ -5,8 +5,8 @@ Python Version: 3.4
 
 Create Your Virtual Environment:
 ``` sh
-virtualenv -p python3 venv
-. venv/bin/activate
+virtualenv -p python3 local
+. local/bin/activate
 pip install psycopg2
 pip install Flask
 deactivate
