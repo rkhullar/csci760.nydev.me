@@ -3,6 +3,11 @@
 
 Python Version: 3.4
 
+Add Correct WSGI to Apache:
+``` sh
+sudo apt-get install libapache2-mod-wsgi-py3
+```
+
 Create Your Virtual Environment:
 ``` sh
 virtualenv -p python3 local
