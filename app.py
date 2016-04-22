@@ -1,6 +1,6 @@
 #!local/bin/python
 
-from flask import Flask
+from flask import Flask, request
 app = Flask(__name__)
 
 
@@ -18,5 +18,12 @@ def profile(username):
 def post(id):
     return '<h2>post id = %d</h2>' % id
 
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        return request.form['test']
+    return 'login form'
+
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
