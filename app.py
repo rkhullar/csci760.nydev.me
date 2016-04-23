@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return '<h2>Hello, I love Digital Ocean!</h2>'
+    return 'Home Page'
 
 
 @app.route('/profile/<username>')
@@ -19,7 +19,7 @@ def post(id):
     return '<h2>post id = %d</h2>' % id
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/api/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         return request.form['test']
