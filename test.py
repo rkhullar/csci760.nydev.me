@@ -19,3 +19,10 @@ except psycopg2.DatabaseError as e:
 finally:
     if con:
         con.close()
+
+class A:
+    def __init__(self, d):
+        self.d = d
+
+    def __str__(self):
+        return str(self.d)
