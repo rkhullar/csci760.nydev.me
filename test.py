@@ -11,6 +11,11 @@ try:
     cur.execute('select version()')
     ver = cur.fetchone()
     print(ver)
+    sql = 'select * from actor'
+    cur.execute(sql)
+    res = cur.fetchall()
+    for row in res:
+        print(row)
 
 except psycopg2.DatabaseError as e:
     print('Error %s' % e)

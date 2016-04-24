@@ -3,31 +3,48 @@
 """
 @author     :   Rajan Khullar
 @created    :   4/16/16
-@updated    :   4/23/16
+@updated    :   4/24/16
 """
 
 from flask import Flask, request, session, render_template, redirect, url_for
+from base import Core, XCore
+
 app = Flask(__name__)
+app.secret_key = 'Jx48YpWqp36395M198tT9D68pasbBGEj'
+
+'''
+people = [
+    Person(fname='Rajan', email='rajan@nydev.me', lname='Khullar'),
+    Person('Melody', 'He', 'melody@gmail.com')
+]
+'''
+
 
 @app.route('/')
 def index():
-    if 'name' not in session:
+    if 'id' not in session:
         return redirect(url_for('login'))
-    return render_template('home.html', name=session['name'])
+    name = XCore.call('person', session['id'])
+    return render_template('home.html', name=name)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if 'id' in session:
+        return redirect(url_for('index'))
     if request.method == 'POST':
-        if request.form['email'] == 'rajan@nydev.me':
-            session['name'] = 'Rajan'
-            return redirect(url_for('index'))
+        core = Core()
+        id = core.login(request.form['email'])
+        if id:
+            session['id'] = id
+        core.close()
+        return redirect(url_for('index'))
     return render_template('login.html')
 
 
 @app.route('/logout')
 def logout():
-    session.pop('name', None)
+    session.pop('id', None)
     return redirect(url_for('index'))
 
 
