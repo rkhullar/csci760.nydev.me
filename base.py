@@ -6,7 +6,7 @@
 @updated    :   4/24/16
 """
 
-import sys, psycopg2
+import sys, psycopg2, hashlib
 from local.config import auth
 from model import Person
 
@@ -33,8 +33,12 @@ class Core:
         self.cur.execute(query, args)
         return self.cur.fetchall()
 
-    def login(self, email, pswd=None):
-        rows = self.exec("select id from actor where email=%s", email)
+    def login(self, email, pswd):
+        m = hashlib.sha256()
+        p = pswd.encode('utf-8')
+        m.update(p)
+        p = m.digest()
+        rows = self.exec("select id from actor where email=%s and password=%s", email, p)
         if rows:
             return rows[0][0]
         return False
@@ -58,7 +62,7 @@ class XCore:
 
 def test_core():
     core = Core()
-    id = core.login("rajan@nydev.me")
+    id = core.login("rajan@nydev.me", "aaaaaa")
     print(id)
     rows = core.exec("select * from actor where id=%s or firstname=%s", 1, 'Rajan')
     core.show(rows)
@@ -66,7 +70,7 @@ def test_core():
 
 
 def test_xcore():
-    id = XCore.call('login', 'rajan@nydev.me')
+    id = XCore.call('login', 'admin@nydev.me', 'mypass')
     print(id)
 
 if __name__ == '__main__':

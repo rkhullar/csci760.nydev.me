@@ -5,7 +5,7 @@
  */
 
 truncate dbo.actor cascade;
-select new.actor('Admin', 'Admin', 'admin@nydev.me');
+select new.actor('Admin', 'Admin', 'admin@nydev.me', digest('mypass', 'sha256'));
 select new.actor('Rajan', 'Khullar', 'rajan@nydev.me');
 
 truncate dbo.admin;

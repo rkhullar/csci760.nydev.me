@@ -12,14 +12,6 @@ from base import Core, XCore
 app = Flask(__name__)
 app.secret_key = 'Jx48YpWqp36395M198tT9D68pasbBGEj'
 
-'''
-people = [
-    Person(fname='Rajan', email='rajan@nydev.me', lname='Khullar'),
-    Person('Melody', 'He', 'melody@gmail.com')
-]
-'''
-
-
 @app.route('/')
 def index():
     if 'id' not in session:
@@ -34,7 +26,9 @@ def login():
         return redirect(url_for('index'))
     if request.method == 'POST':
         core = Core()
-        id = core.login(request.form['email'])
+        email = request.form['email']
+        pswd = request.form['pswd']
+        id = core.login(email, pswd)
         if id:
             session['id'] = id
         core.close()
