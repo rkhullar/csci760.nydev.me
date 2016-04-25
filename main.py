@@ -46,6 +46,15 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('id', None)
+    if 'admin' in session:
+        session.pop('admin', None)
+    return redirect(url_for('index'))
+
+
+@app.route('/admin/deactivate')
+def admin_deactivate():
+    if 'admin' in session:
+        session.pop('admin', None)
     return redirect(url_for('index'))
 
 
