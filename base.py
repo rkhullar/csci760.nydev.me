@@ -38,13 +38,17 @@ class Core:
         p = pswd.encode('utf-8')
         m.update(p)
         p = m.digest()
-        rows = self.exec("select id from actor where email=%s and password=%s", email, p)
+        rows = self.exec("select id from dbo.actor where email=%s and password=%s", email, p)
         if rows:
             return rows[0][0]
         return False
 
+    def admin(self, id):
+        rows = self.exec("select * from dbo.admin where id=%s", id)
+        return len(rows) > 0
+
     def person(self, id):
-        rows = self.exec("select firstname, lastname from actor where id=%s", id)
+        rows = self.exec("select firstname, lastname from dbo.actor where id=%s", id)
         if rows:
             return rows[0][0] + ' ' + rows[0][1]
         return False
@@ -71,7 +75,10 @@ def test_core():
 
 def test_xcore():
     id = XCore.call('login', 'admin@nydev.me', 'mypass')
+    #id = XCore.call('login', 'rajan@nydev.me', 'aaaaaa')
     print(id)
+    admin = XCore.call('admin', id)
+    print(admin)
 
 if __name__ == '__main__':
     test_xcore()

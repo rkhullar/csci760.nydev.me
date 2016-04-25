@@ -3,7 +3,7 @@
 """
 @author     :   Rajan Khullar
 @created    :   4/16/16
-@updated    :   4/24/16
+@updated    :   4/25/16
 """
 
 from flask import Flask, request, session, render_template, redirect, url_for
@@ -12,12 +12,16 @@ from base import Core, XCore
 app = Flask(__name__)
 app.secret_key = 'Jx48YpWqp36395M198tT9D68pasbBGEj'
 
+
 @app.route('/')
 def index():
     if 'id' not in session:
         return redirect(url_for('login'))
     name = XCore.call('person', session['id'])
-    return render_template('home.html', name=name)
+    if 'admin' in session and session['admin'] == True:
+        return render_template('admin.html', name=name)
+    else:
+        return render_template('home.html', name=name)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -25,12 +29,15 @@ def login():
     if 'id' in session:
         return redirect(url_for('index'))
     if request.method == 'POST':
-        core = Core()
         email = request.form['email']
         pswd = request.form['pswd']
+        core = Core()
         id = core.login(email, pswd)
         if id:
             session['id'] = id
+            admin = core.admin(id)
+            if admin:
+                session['admin'] = True
         core.close()
         return redirect(url_for('index'))
     return render_template('login.html')
