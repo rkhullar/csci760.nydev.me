@@ -1,7 +1,9 @@
+#!local/bin/python
+
 """
 @author     :   Rajan Khullar
 @created    :   3/26/16
-@updated    :   4/24/16
+@updated    :   4/28/16
 """
 
 
@@ -32,3 +34,6 @@ class DataList:
 
     def persist(self):
         pass
+
+if __name__ == '__main__':
+    print('hello')

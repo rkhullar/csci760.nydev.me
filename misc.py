@@ -1,3 +1,5 @@
+#!local/bin/python
+
 # creates list of N items
 def listgen(n):
     o = []
@@ -14,3 +16,6 @@ def tblgen(r, c):
         for j in range(c):
             o[i].append(None)
     return o
+
+if __name__ == '__main__':
+    print(tblgen(3, 2))

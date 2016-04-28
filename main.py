@@ -29,10 +29,11 @@ def login():
     if 'id' in session:
         return redirect(url_for('index'))
     if request.method == 'POST':
+        card = request.form['card']
         email = request.form['email']
         pswd = request.form['pswd']
         core = Core()
-        id = core.login(email, pswd)
+        id = core.login(card, email, pswd)
         if id:
             session['id'] = id
             admin = core.admin(id)

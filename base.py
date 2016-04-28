@@ -3,7 +3,7 @@
 """
 @author     :   Rajan Khullar
 @created    :   4/24/16
-@updated    :   4/24/16
+@updated    :   4/28/16
 """
 
 import sys, psycopg2, hashlib
@@ -33,14 +33,19 @@ class Core:
         self.cur.execute(query, args)
         return self.cur.fetchall()
 
-    def login(self, email, pswd):
+    def login(self, card='', email='', pswd=''):
         m = hashlib.sha256()
         p = pswd.encode('utf-8')
         m.update(p)
         p = m.digest()
-        rows = self.exec("select id from dbo.actor where email=%s and password=%s", email, p)
-        if rows:
-            return rows[0][0]
+        if email.strip():
+            rows = self.exec("select id from dbo.actor where email=%s and password=%s", email, p)
+            if rows:
+                return rows[0][0]
+        if card.strip():
+            rows = self.exec("select id from dbv.reader where card=%s and password=%s", card, p)
+            if rows:
+                return rows[0][0]
         return False
 
     def admin(self, id):
