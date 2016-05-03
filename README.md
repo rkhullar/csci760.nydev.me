@@ -53,8 +53,10 @@ $ psql -d _db_ < _script.sql_
 2. [Digital Ocean Flask] [ocean-flask]
 3. [Rest API] [rest-api]
 4. [Quickstart Flask] [flask-quick]
+5. [Flask Decorators] [flask-decor] 
 
 [django-apache]: https://www.digitalocean.com/community/tutorials/how-to-run-django-with-mod_wsgi-and-apache-with-a-virtualenv-python-environment-on-a-debian-vps
 [ocean-flask]: https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps
 [rest-api]: http://blog.miguelgrinberg.com/post/designing-a-restful-api-with-python-and-flask
 [flask-quick]: http://flask.pocoo.org/docs/0.10/quickstart/
+[flask-decor]: http://flask.pocoo.org/docs/0.10/patterns/viewdecorators/
