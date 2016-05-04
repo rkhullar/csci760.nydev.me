@@ -15,8 +15,15 @@ try:
     cur.execute(sql)
     res = cur.fetchall()
     for row in res:
-        print(row)
-
+        print(row[0], row[1])
+    sql = "select new.reader(100, 'test', 'nydev', 'test@nydev.me', 0, 'NYIT')"
+    cur.execute(sql)
+    con.commit()
+    sql = 'select * from actor'
+    cur.execute(sql)
+    res = cur.fetchall()
+    for row in res:
+        print(row[0], row[1])
 except psycopg2.DatabaseError as e:
     print('Error %s' % e)
     sys.exit(1)

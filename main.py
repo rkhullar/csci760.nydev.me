@@ -97,11 +97,20 @@ def admin():
 @app.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
-    name = XCore.call('person', session['id'])
-    msg = None
-    if request.method == 'POST':
-        msg = request.form['msg']
-    return render_template('home.html', name=name, msg=msg)
+    g = ['alpha', 'beta', 'gamma']
+    msg = form_match(g, request)
+    return render_template('home.html',
+                           msg=msg,
+                           name=XCore.call('person', session['id']),
+                           books=XCore.call('books'))
+
+# Support Funcitons
+def form_match(search, request):
+    o = None
+    for item in search:
+        if item in request.form:
+            o = item
+    return o
 
 ''' Example Routes
 

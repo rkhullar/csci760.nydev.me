@@ -3,10 +3,10 @@
 """
 @author     :   Rajan Khullar
 @created    :   4/24/16
-@updated    :   4/28/16
+@updated    :   5/04/16
 """
 
-import sys, psycopg2, hashlib
+import sys, psycopg2, hashlib, datetime
 from local.config import auth
 from model import Person
 
@@ -58,6 +58,23 @@ class Core:
             return rows[0][0] + ' ' + rows[0][1]
         return False
 
+    def books(self):
+        # isbn, pubdate, title, author, publisher, address
+        sql = "select * from dbv.book"
+        rows = self.exec(sql)
+        books = []
+        if rows:
+            for row in rows:
+                x = {'isbn'     : row[0],
+                     'pubdate'  : row[1].strftime('%m/%d/%Y'),
+                     'title'    : row[2],
+                     'author'   : row[3],
+                     'publisher': row[4],
+                     'address'  : row[5]
+                     }
+                books.append(x)
+        return books
+
 
 class XCore:
     @staticmethod
@@ -85,5 +102,10 @@ def test_xcore():
     admin = XCore.call('admin', id)
     print(admin)
 
+def test_books():
+    for b in XCore.call('books'):
+        print(b)
+
+
 if __name__ == '__main__':
-    test_xcore()
+    test_books()

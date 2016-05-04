@@ -12,9 +12,36 @@
     <a href='/logout'>Logout</a>
 
     <form action='' method='post'>
-        <input type='text' name='msg' placeholder='Message'>
-        <input type='submit' value='Go'>
+        <input type='submit' name='alpha' value='Alpha'>
+        <input type='submit' name='beta' value='Beta'>
     </form>
+
+    <form action='' method='post'>
+        <input type='submit' name='gamma' value='Gamma'>
+    </form>
+
+    <div id='books'>
+    <table>
+    <tr>
+        <th>ISBN</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Publisher</th>
+        <th>Address</th>
+        <th>Date</th>
+    </tr>
+    {% for book in books %}
+        <tr>
+        <td>{{ book.isbn }}</td>
+        <td>{{ book.title }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.publisher }}</td>
+        <td>{{ book.address }}</td>
+        <td>{{ book.pubdate }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    </div>
 
 </body>
 </html>

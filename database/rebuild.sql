@@ -107,15 +107,15 @@ create function new.uniq_author(fname varchar(20), lname varchar(20))
   returning id;
   $$ language sql;
 
-create function new.uniq_publish(fname varchar(20), lname varchar(20), address varchar(100))
+create function new.uniq_publish(fname varchar(20), lname varchar(20), addresss varchar(100))
   returns integer as $$
   insert into dbo.publisher(firstname, lastname, address)
-    select fname, lname, address
+    select fname, lname, addresss
     where not exists
     (
       select *
       from dbo.publisher
-      where firstname=fname and lastname=lname and address=address
+      where firstname=fname and lastname=lname and address=addresss
     )
   returning id;
   $$ language sql;
