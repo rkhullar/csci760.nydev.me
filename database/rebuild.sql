@@ -151,12 +151,12 @@ create table dbo.copy
   lock boolean not null default false
 );
 
-/* not sure correct */
 create view dbv.inventory as
-  select c.isbn, b.id, count(*)
+  select c.isbn, b.id as branchID, count(*)
   from dbo.copy c, dbo.branch b
   where c.branchID = b.id
-  group by c.isbn, b.id;
+  group by c.isbn, b.id
+  order by c.isbn, b.id;
 
 create function new.copy(isbn numeric(13,0), branchID integer, amt integer)
   returns void as $$

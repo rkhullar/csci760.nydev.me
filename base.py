@@ -119,11 +119,27 @@ class Core:
             n = rows[0][0]
         n += 1
         for x in range(amt):
-            sql = "insert into dbo.copy(isbn, branchID, n) values (%s, %s, %s)"
-            self.exec(sql, isbn, branchID, n)
+            sql = "insert into dbo.copy(isbn, branchID, n) values (%s, %s, %s)" % (isbn, branchID, n)
+            self.cur.execute(sql)
+            self.con.commit()
             n += 1
 
+    def status_book_copy(self, branchID, isbn, code):
+        sql = "select n from dbo.copy where branchID=%s and isbn=%s"
+        rows = self.exec(sql, branchID, isbn)
+        return rows[0][0]
+
     def inventory(self):
+        # isbn branchID count
+        rows = self.exec("select * from dbv.inventory")
+        out = []
+        if rows:
+            for row in rows:
+                x = {'isbn': row[0], 'bid': row[1], 'amt': row[2]}
+                out.append(x)
+        return out
+
+    def inventory_full(self):
         # id isbn branchID n lock
         rows = self.exec("select * from dbo.copy")
         out = []
@@ -132,6 +148,13 @@ class Core:
                 x = {'isbn': row[1], 'bid': row[2], 'n': row[3], 'status': 'off shelf' if row[4] else 'on shelf'}
                 out.append(x)
         return out
+
+    def average_fine_paid(self):
+        n = self.exec("select count(*) from map.borrow")[0][0]
+        if n > 0:
+            return self.exec("select avg(payment) from map.borrow")[0][0]
+        else:
+            return 0
 
 
 class XCore:
@@ -171,9 +194,9 @@ def test_readers():
     XCore.call('add_reader', '12345678', 'test', 'nydev', 'test@nydev.me')
 
 def test_inventory():
-    XCore.call('add_book_copy', 1, 1000000000001)
-    #for o in XCore.call('inventory'):
-       # print(o)
+    XCore.call('add_book_copy', 1, 1000000000001, 5)
+    for o in XCore.call('inventory'):
+        print(o)
 
 if __name__ == '__main__':
     test_inventory()

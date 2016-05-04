@@ -10,4 +10,5 @@ function main()
     $('#books').hide();
     $('#readers').hide();
     $('#branches').hide();
+    $('#inventory').hide();
 }

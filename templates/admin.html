@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang='en'>
 <head>
     <meta charset='UTF-8'>
@@ -7,9 +7,6 @@
 </head>
 <body>
     <h1>Welcome {{ name }}!</h1>
-    {% if action %}
-        <p id='test'>{{ action }}</p>
-    {% endif %}
 
     <a href='/logout'>Logout</a>
     <a href='/admin/deactivate'>Normal</a>
@@ -41,10 +38,30 @@
         <input type='submit' name='add_book_copy' value='Submit'>
     </form>
 
+    <h3>Status Book Copy</h3>
+    <form action='' method='post'>
+        {% if status %}
+            <p>status: {{ status }}</p>
+        {% endif %}
+        <label for='branch_id'>Branch #</label>
+        <input type='number' name='branch_id' placeholder='1' required><br>
+        <label for='isbn'>ISBN</label>
+        <input type='number' name='isbn' placeholder='1000000012345' required><br>
+        <label for='code'>Code</label>
+        <input type='number' name='code' placeholder='1' required><br>
+        <input type='submit' name='status_book_copy' value='Submit'>
+    </form>
+
+    <h3>Average Fines Paid</h3>
+    <div href='fines'>
+        <p>{{ fines }}</p>
+    </div>
+
     <h3>Toggle Views</h3>
     <button class='toggle' target='books'>Books</button>
     <button class='toggle' target='readers'>Readers</button>
     <button class='toggle' target='branches'>Branches</button>
+    <button class='toggle' target='inventory'>Inventory</button>
 
     <div href='#readers' id='readers'>
         <table>
@@ -113,16 +130,14 @@
         <table>
         <tr>
             <th>ISBN</th>
-            <th>Branch #</th>
-            <th>#</th>
-            <th>Status</th>
+            <th>Branch</th>
+            <th>Count</th>
         </tr>
-            {% for copy in inventory %}
+            {% for item in inventory %}
                 <tr>
-                <td>{{ copy.isbn }}</td>
-                <td>{{ copy.bid }}</td>
-                <td>{{ copy.n }}</td>
-                <td>{{ copy.status }}</td>
+                <td>{{ item.isbn }}</td>
+                <td>{{ item.bid }}</td>
+                <td>{{ item.amt }}</td>
                 </tr>
             {% endfor %}
         </table>

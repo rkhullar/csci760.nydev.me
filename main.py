@@ -90,8 +90,10 @@ def admin_deactivate():
 @app.route('/admin', methods=['GET', 'POST'])
 @admin_required
 def admin():
-    actions = ['add_reader', 'add_book_copy']
+    actions = ['add_reader', 'add_book_copy', 'status_book_copy']
     action = match(actions, request)
+
+    o1 = None
 
     if action == 'add_reader':
         card = int(request.form['card'])
@@ -112,13 +114,20 @@ def admin():
         amount   = int(request.form['amount'])
         XCore.call(action, branchID, isbn, amount)
 
+    if action == 'status_book_copy':
+        branchID = int(request.form['branch_id'])
+        isbn     = int(request.form['isbn'])
+        code     = int(request.form['code'])
+        o1 = XCore.call(action, branchID, isbn, code)
+
     return render_template('admin.html',
                            name=XCore.call('person', session['id']),
                            readers=XCore.call('readers'),
                            books=XCore.call('books'),
                            branches=XCore.call('branches'),
                            inventory=XCore.call('inventory'),
-                           action=action)
+                           fines=XCore.call('average_fine_paid'),
+                           status=o1)
 
 # Reader Routes
 @app.route('/home', methods=['GET', 'POST'])
