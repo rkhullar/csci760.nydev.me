@@ -151,6 +151,31 @@ create table dbo.copy
   lock boolean not null default false
 );
 
+create function new.copy(isbn numeric(13,0), branchID integer, n integer)
+  returns void as $$
+  declare
+    count integer := 1;
+  begin
+    while count <= n loop
+      insert into dbo.copy(isbn, branchID, n)
+        select isbn, branchID, count;
+      count := count + 1;
+    end loop;
+  end;
+  $$ language plpgsql;
+
+create function new.easy_copy(book_title varchar(100), n1 int default 10, n2 int default 10, n3 int default 10)
+  returns void as $$
+  declare
+    book numeric(13,0);
+  begin
+    select isbn into book from dbo.book where title=book_title;
+    perform new.copy(book, 1, n1);
+    perform new.copy(book, 2, n2);
+    perform new.copy(book, 3, n3);
+  end;
+  $$ language plpgsql;
+
 create table map.borrow
 (
   copyID serial references dbo.copy(id),

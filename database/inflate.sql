@@ -70,3 +70,24 @@ insert into dbo.branch("name", address) values
 ('New York Library', 'New York'),
 ('Boston Library', 'Massachusetts'),
 ('Nanjing World Library', 'Nanjing');
+
+/* fill library with books */
+select new.easy_copy('Things Happen'      );
+select new.easy_copy('Encyclopedia Alpha' );
+select new.easy_copy('Encyclopedia Beta'  );
+select new.easy_copy('Encyclopedia Gamma' );
+select new.easy_copy('Encyclopedia Theta' );
+select new.easy_copy('Encyclopedia Iota'  );
+select new.easy_copy('Encyclopedia Omega' );
+select new.easy_copy('Life of Pi'         );
+select new.easy_copy('The School Bus'     );
+select new.easy_copy('Martian War'        );
+select new.easy_copy('Data Structures'    );
+select new.easy_copy('Subway Six'         );
+select new.easy_copy('Alphabet Soup'      );
+select new.easy_copy('The Cheaters'       );
+select new.easy_copy('Universal History'  );
+select new.easy_copy('Python Machines'    );
+select new.easy_copy('Computer Arch'      );
+select new.easy_copy('How to Linux'       );
+select new.easy_copy('I am the Wizard Now');
