@@ -1,7 +1,7 @@
 /*
  * @author  : Rajan Khullar
  * @created : 04/16/16
- * @updated : 04/28/16
+ * @updated : 05/04/16
  */
 
 create extension if not exists pgcrypto;
@@ -87,6 +87,13 @@ create table dbo.book
   pubdate date not null
 );
 
+create view dbv.book as
+  select b.isbn, b.pubdate, b.title,
+    concat(a.firstname, ' ', a.lastname) as author,
+    concat(p.firstname, ' ', p.lastname) as publisher, p.address
+  from dbo.book b, dbo.author a, dbo.publisher p
+  where b.auhtorID = a.id and b.publisherID = p.id;
+
 create function new.uniq_author(fname varchar(20), lname varchar(20))
   returns integer as $$
   insert into dbo.author(firstname, lastname)
@@ -113,12 +120,12 @@ create function new.uniq_publish(fname varchar(20), lname varchar(20), address v
   returning id;
   $$ language sql;
 
-create function new.book(isbn numeric(13,0), pubdate date, title varchar(100), author_fname varchar(20), author_lname varchar(20), publish_fname varchar(20), publish_lname varchar(20), publish_address varchar(100))
+create function new.book(isbn numeric(13,0), pubdate text, title varchar(100), author_fname varchar(20), author_lname varchar(20), publish_fname varchar(20), publish_lname varchar(20), publish_address varchar(100))
   returns void as $$
   select new.uniq_author(author_fname, author_lname);
   select new.uniq_publish(publish_fname, publish_lname, publish_address);
   insert into dbo.book(isbn, pubdate, title, auhtorID, publisherID)
-      select isbn, pubdate, title,
+      select isbn, to_date(pubdate, 'MM/DD/YYYY'), title,
         (select id from dbo.author
           where firstname=author_fname and lastname=author_lname),
         (select id from dbo.publisher

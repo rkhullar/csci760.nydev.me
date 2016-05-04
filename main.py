@@ -41,17 +41,19 @@ def page_not_found(e):
 @app.route('/')
 @login_required
 def index():
-    name = XCore.call('person', session['id'])
     if 'admin' in session and session['admin'] == True:
-        return render_template('admin.html', name=name)
+        return redirect(url_for('admin'))
     else:
-        return render_template('home.html', name=name)
+        return redirect(url_for('home'))
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    # check if user is already logged in
     if 'id' in session:
         return redirect(url_for('index'))
+
+    # handle login request
     if request.method == 'POST':
         card = request.form['card']
         email = request.form['email']
@@ -65,6 +67,8 @@ def login():
                 session['admin'] = True
         core.close()
         return redirect(url_for('index'))
+
+    # send the login form
     return render_template('login.html')
 
 
@@ -83,14 +87,21 @@ def admin_deactivate():
     return redirect(url_for('index'))
 
 # Admin Routes
-@app.route('/admin/test')
+@app.route('/admin')
 @admin_required
-
-def admin_test():
-    return render_template('admin-test.html', x=5)
+def admin():
+    name = XCore.call('person', session['id'])
+    return render_template('admin.html', name=name)
 
 # Reader Routes
-
+@app.route('/home', methods=['GET', 'POST'])
+@login_required
+def home():
+    name = XCore.call('person', session['id'])
+    msg = None
+    if request.method == 'POST':
+        msg = request.form['msg']
+    return render_template('home.html', name=name, msg=msg)
 
 ''' Example Routes
 

@@ -7,8 +7,14 @@
 <body>
     <h1>Hello {{ name }}!</h1>
     {% if msg %}
-        <p>msg</p>
+        <p>{{ msg }}</p>
     {% endif %}
     <a href='/logout'>Logout</a>
+
+    <form action='' method='post'>
+        <input type='text' name='msg' placeholder='Message'>
+        <input type='submit' value='Go'>
+    </form>
+
 </body>
 </html>
