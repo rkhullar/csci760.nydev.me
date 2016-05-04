@@ -151,12 +151,19 @@ create table dbo.copy
   lock boolean not null default false
 );
 
-create function new.copy(isbn numeric(13,0), branchID integer, n integer)
+/* not sure correct */
+create view dbv.inventory as
+  select c.isbn, b.id, count(*)
+  from dbo.copy c, dbo.branch b
+  where c.branchID = b.id
+  group by c.isbn, b.id;
+
+create function new.copy(isbn numeric(13,0), branchID integer, amt integer)
   returns void as $$
   declare
     count integer := 1;
   begin
-    while count <= n loop
+    while count <= amt loop
       insert into dbo.copy(isbn, branchID, n)
         select isbn, branchID, count;
       count := count + 1;

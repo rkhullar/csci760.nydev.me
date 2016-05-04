@@ -92,6 +92,7 @@ def admin_deactivate():
 def admin():
     actions = ['add_reader', 'add_book_copy']
     action = match(actions, request)
+
     if action == 'add_reader':
         card = int(request.form['card'])
         fname = request.form['fname']
@@ -105,11 +106,18 @@ def admin():
             address = request.form['address']
         XCore.call(action, card, fname, lname, email, phone, address)
 
+    if action == 'add_book_copy':
+        branchID = int(request.form['branch_id'])
+        isbn     = int(request.form['isbn'])
+        amount   = int(request.form['amount'])
+        XCore.call(action, branchID, isbn, amount)
+
     return render_template('admin.html',
                            name=XCore.call('person', session['id']),
                            readers=XCore.call('readers'),
                            books=XCore.call('books'),
                            branches=XCore.call('branches'),
+                           inventory=XCore.call('inventory'),
                            action=action)
 
 # Reader Routes

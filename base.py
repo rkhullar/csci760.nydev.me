@@ -61,10 +61,6 @@ class Core:
             return rows[0][0] + ' ' + rows[0][1]
         return False
 
-    def add_reader(self, card, fname, lname, email, phone=0, address='NYIT'):
-        self.exec('select new.reader(%s,%s,%s,%s,%s,%s)', card, fname, lname, email, phone, address)
-        self.commit()
-
     def readers(self):
         # id, card, firstname, lastname, email, phone, address, password
         sql = "select * from dbv.reader"
@@ -82,6 +78,10 @@ class Core:
                      }
                 out.append(x)
         return out
+
+    def add_reader(self, card, fname, lname, email, phone=0, address='NYIT'):
+        self.exec('select new.reader(%s,%s,%s,%s,%s,%s)', card, fname, lname, email, phone, address)
+        self.commit()
 
     def branches(self):
         # id, name, address
@@ -108,6 +108,28 @@ class Core:
                      'publisher': row[4],
                      'address'  : row[5]
                      }
+                out.append(x)
+        return out
+
+    def add_book_copy(self, branchID, isbn, amt=1):
+        sql = "select max(n) from dbo.copy where branchID=%s and isbn=%s"
+        rows = self.exec(sql, branchID, isbn)
+        n = 0
+        if rows[0][0]:
+            n = rows[0][0]
+        n += 1
+        for x in range(amt):
+            sql = "insert into dbo.copy(isbn, branchID, n) values (%s, %s, %s)"
+            self.exec(sql, isbn, branchID, n)
+            n += 1
+
+    def inventory(self):
+        # id isbn branchID n lock
+        rows = self.exec("select * from dbo.copy")
+        out = []
+        if rows:
+            for row in rows:
+                x = {'isbn': row[1], 'bid': row[2], 'n': row[3], 'status': 'off shelf' if row[4] else 'on shelf'}
                 out.append(x)
         return out
 
@@ -148,5 +170,10 @@ def test_readers():
 
     XCore.call('add_reader', '12345678', 'test', 'nydev', 'test@nydev.me')
 
+def test_inventory():
+    XCore.call('add_book_copy', 1, 1000000000001)
+    #for o in XCore.call('inventory'):
+       # print(o)
+
 if __name__ == '__main__':
-    test_readers()
+    test_inventory()
