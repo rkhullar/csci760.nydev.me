@@ -13,3 +13,5 @@ insert into dbo.admin
 select id
 from dbo.actor
 where email = 'admin@nydev.me';
+
+select new.book(0, current_date, 'El Monster', 'Rajan', 'Khullar', 'NYIT', 'Master', 'NY');

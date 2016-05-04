@@ -29,7 +29,7 @@ $ sudo su -l postgres
 $ psql
 - create user _user_ with superuser password _pass_; 
 - create database _db_ owner _user_;
-- alter role _user_ in database _db_ set search_path to public,dbo,new;
+- alter role _user_ in database _db_ set search_path to public,dbo,dbv,new,map;
 $ su -l _user_
 $ psql -d _db_ < _script.sql_
 ```
