@@ -90,8 +90,21 @@ def admin_deactivate():
 @app.route('/admin', methods=['GET', 'POST'])
 @admin_required
 def admin():
-    actions = ['add-reader', 'add-book-copy']
+    actions = ['add_reader', 'add_book_copy']
     action = match(actions, request)
+    if action == 'add_reader':
+        card = int(request.form['card'])
+        fname = request.form['fname']
+        lname = request.form['lname']
+        email = request.form['email']
+        phone = 0
+        if request.form['phone'].strip():
+            phone = int(request.form['phone'])
+        address = 'NYIT'
+        if request.form['address'].strip():
+            address = request.form['address']
+        XCore.call(action, card, fname, lname, email, phone, address)
+
     return render_template('admin.html',
                            name=XCore.call('person', session['id']),
                            readers=XCore.call('readers'),

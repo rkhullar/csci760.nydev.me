@@ -24,6 +24,9 @@ class Core:
         if self.con:
             self.con.close()
 
+    def commit(self):
+        self.con.commit()
+
     @staticmethod
     def show(rows):
         for row in rows:
@@ -57,6 +60,10 @@ class Core:
         if rows:
             return rows[0][0] + ' ' + rows[0][1]
         return False
+
+    def add_reader(self, card, fname, lname, email, phone=0, address='NYIT'):
+        self.exec('select new.reader(%s,%s,%s,%s,%s,%s)', card, fname, lname, email, phone, address)
+        self.commit()
 
     def readers(self):
         # id, card, firstname, lastname, email, phone, address, password
@@ -127,6 +134,8 @@ def test_books():
 def test_readers():
     for o in XCore.call('readers'):
         print(o)
+
+    XCore.call('add_reader', '12345678', 'test', 'nydev', 'test@nydev.me')
 
 if __name__ == '__main__':
     test_readers()

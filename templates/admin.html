@@ -14,9 +14,20 @@
     <a href='/logout'>Logout</a>
     <a href='/admin/deactivate'>Normal</a>
 
+    <h3>Add Reader</h3>
     <form action='' method='post'>
-        <input type='submit' name='add-reader' value='Add'>
-        <input type='submit' name='add-book-copy' value='Add'>
+        <input type='number' name='card' placeholder='Card #' required>
+        <input type='text' name='fname' placeholder='First Name' required>
+        <input type='text' name='lname' placeholder='Last Name' required>
+        <input type='text' name='email' placeholder='Email' required>
+        <input type='number' name='phone' placeholder='Phone #'>
+        <input type='text' name='address' placeholder='Address'>
+        <input type='submit' name='add_reader' value='Add'>
+    </form>
+
+    <h3>Add Book Copy</h3>
+    <form action='' method='post'>
+        <input type='submit' name='add_book_copy' value='Add'>
     </form>
 
     <button class='toggle' target='books'>Toggle Books</button>
