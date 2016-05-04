@@ -109,6 +109,7 @@ def admin():
                            name=XCore.call('person', session['id']),
                            readers=XCore.call('readers'),
                            books=XCore.call('books'),
+                           branches=XCore.call('branches'),
                            action=action)
 
 # Reader Routes

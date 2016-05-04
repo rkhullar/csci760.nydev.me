@@ -83,6 +83,17 @@ class Core:
                 out.append(x)
         return out
 
+    def branches(self):
+        # id, name, address
+        sql = 'select * from dbo.branch'
+        rows = self.exec(sql)
+        out = []
+        if rows:
+            for row in rows:
+                x = {'id': row[0], 'name': row[1], 'address': row[2]}
+                out.append(x)
+        return out
+
     def books(self):
         # isbn, pubdate, title, author, publisher, address
         sql = "select * from dbv.book"
