@@ -87,25 +87,30 @@ def admin_deactivate():
     return redirect(url_for('index'))
 
 # Admin Routes
-@app.route('/admin')
+@app.route('/admin', methods=['GET', 'POST'])
 @admin_required
 def admin():
-    name = XCore.call('person', session['id'])
-    return render_template('admin.html', name=name)
+    actions = ['add-reader', 'add-book-copy']
+    action = match(actions, request)
+    return render_template('admin.html',
+                           name=XCore.call('person', session['id']),
+                           readers=XCore.call('readers'),
+                           books=XCore.call('books'),
+                           action=action)
 
 # Reader Routes
 @app.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
-    g = ['alpha', 'beta', 'gamma']
-    msg = form_match(g, request)
+    actions = ['alpha', 'beta', 'gamma']
+    msg = match(actions, request)
     return render_template('home.html',
                            msg=msg,
                            name=XCore.call('person', session['id']),
                            books=XCore.call('books'))
 
 # Support Funcitons
-def form_match(search, request):
+def match(search, request):
     o = None
     for item in search:
         if item in request.form:

@@ -58,11 +58,29 @@ class Core:
             return rows[0][0] + ' ' + rows[0][1]
         return False
 
+    def readers(self):
+        # id, card, firstname, lastname, email, phone, address, password
+        sql = "select * from dbv.reader"
+        rows = self.exec(sql)
+        out = []
+        if rows:
+            for row in rows:
+                x = {'id'     : row[0],
+                     'card'   : row[1],
+                     'fname'  : row[2],
+                     'lname'  : row[3],
+                     'email'  : row[4],
+                     'phone'  : row[5],
+                     'address': row[6]
+                     }
+                out.append(x)
+        return out
+
     def books(self):
         # isbn, pubdate, title, author, publisher, address
         sql = "select * from dbv.book"
         rows = self.exec(sql)
-        books = []
+        out = []
         if rows:
             for row in rows:
                 x = {'isbn'     : row[0],
@@ -72,8 +90,8 @@ class Core:
                      'publisher': row[4],
                      'address'  : row[5]
                      }
-                books.append(x)
-        return books
+                out.append(x)
+        return out
 
 
 class XCore:
@@ -103,9 +121,12 @@ def test_xcore():
     print(admin)
 
 def test_books():
-    for b in XCore.call('books'):
-        print(b)
+    for o in XCore.call('books'):
+        print(o)
 
+def test_readers():
+    for o in XCore.call('readers'):
+        print(o)
 
 if __name__ == '__main__':
-    test_books()
+    test_readers()

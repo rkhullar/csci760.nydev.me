@@ -47,7 +47,7 @@ create view dbv.reader as
   from dbo.actor a, dbo.reader r
   where a.id = r.id;
 
-create function new.actor(fname varchar(20), lname varchar(20), email varchar(50), phone numeric(9,0), address varchar(100), pswd bytea default digest('aaaaaa', 'sha256'))
+create function new.actor(fname varchar(20), lname varchar(20), email varchar(50), phone numeric(9,0) default 0, address varchar(100) default 'NYIT', pswd bytea default digest('aaaaaa', 'sha256'))
   returns integer as $$
   insert into dbo.actor(firstname, lastname, email, phone, address, "password")
     values ($1, $2, $3, $4, $5, $6)
@@ -55,7 +55,7 @@ create function new.actor(fname varchar(20), lname varchar(20), email varchar(50
 $$ language sql;
 
 
-create function new.reader(card numeric(8, 0), fname varchar(20), lname varchar(20), email varchar(50), phone numeric(9,0), address varchar(100), pswd bytea default digest('aaaaaa', 'sha256'))
+create function new.reader(card numeric(8, 0), fname varchar(20), lname varchar(20), email varchar(50), phone numeric(9,0) default 0, address varchar(100) default 'NYIT', pswd bytea default digest('aaaaaa', 'sha256'))
   returns integer as $$
   insert into dbo.reader(id, card)
       values (new.actor($2, $3, $4, $5, $6, $7), $1)

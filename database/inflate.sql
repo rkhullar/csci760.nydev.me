@@ -7,27 +7,27 @@
 
 /* setup reader accounts */
 truncate dbo.actor cascade;
-select new.reader( 0, 'Rajan', 'Khullar', 'rajan@nydev.me', 0, 'Earth');
-select new.reader( 1, 'bot01', 'nydev', 'bot01@nydev.me', 0, 'NYIT');
-select new.reader( 2, 'bot02', 'nydev', 'bot02@nydev.me', 0, 'NYIT');
-select new.reader( 3, 'bot03', 'nydev', 'bot03@nydev.me', 0, 'NYIT');
-select new.reader( 4, 'bot04', 'nydev', 'bot04@nydev.me', 0, 'NYIT');
-select new.reader( 5, 'bot05', 'nydev', 'bot05@nydev.me', 0, 'NYIT');
-select new.reader( 6, 'bot06', 'nydev', 'bot06@nydev.me', 0, 'NYIT');
-select new.reader( 7, 'bot07', 'nydev', 'bot07@nydev.me', 0, 'NYIT');
-select new.reader( 8, 'bot08', 'nydev', 'bot08@nydev.me', 0, 'NYIT');
-select new.reader( 9, 'bot09', 'nydev', 'bot09@nydev.me', 0, 'NYIT');
-select new.reader(10, 'bot10', 'nydev', 'bot10@nydev.me', 0, 'NYIT');
-select new.reader(11, 'bot11', 'nydev', 'bot11@nydev.me', 0, 'NYIT');
-select new.reader(12, 'bot12', 'nydev', 'bot12@nydev.me', 0, 'NYIT');
-select new.reader(13, 'bot13', 'nydev', 'bot13@nydev.me', 0, 'NYIT');
-select new.reader(14, 'bot14', 'nydev', 'bot14@nydev.me', 0, 'NYIT');
-select new.reader(15, 'bot15', 'nydev', 'bot15@nydev.me', 0, 'NYIT');
-select new.reader(16, 'bot16', 'nydev', 'bot16@nydev.me', 0, 'NYIT');
-select new.reader(17, 'bot17', 'nydev', 'bot17@nydev.me', 0, 'NYIT');
-select new.reader(18, 'bot18', 'nydev', 'bot18@nydev.me', 0, 'NYIT');
-select new.reader(19, 'bot19', 'nydev', 'bot19@nydev.me', 0, 'NYIT');
-select new.reader(20, 'bot20', 'nydev', 'bot20@nydev.me', 0, 'NYIT');
+select new.reader(10000000, 'Rajan', 'Khullar', 'rajan@nydev.me');
+select new.reader(10000001, 'bot01', 'nydev', 'bot01@nydev.me');
+select new.reader(10000002, 'bot02', 'nydev', 'bot02@nydev.me');
+select new.reader(10000003, 'bot03', 'nydev', 'bot03@nydev.me');
+select new.reader(10000004, 'bot04', 'nydev', 'bot04@nydev.me');
+select new.reader(10000005, 'bot05', 'nydev', 'bot05@nydev.me');
+select new.reader(10000006, 'bot06', 'nydev', 'bot06@nydev.me');
+select new.reader(10000007, 'bot07', 'nydev', 'bot07@nydev.me');
+select new.reader(10000008, 'bot08', 'nydev', 'bot08@nydev.me');
+select new.reader(10000009, 'bot09', 'nydev', 'bot09@nydev.me');
+select new.reader(10000010, 'bot10', 'nydev', 'bot10@nydev.me');
+select new.reader(10000011, 'bot11', 'nydev', 'bot11@nydev.me');
+select new.reader(10000012, 'bot12', 'nydev', 'bot12@nydev.me');
+select new.reader(10000013, 'bot13', 'nydev', 'bot13@nydev.me');
+select new.reader(10000014, 'bot14', 'nydev', 'bot14@nydev.me');
+select new.reader(10000015, 'bot15', 'nydev', 'bot15@nydev.me');
+select new.reader(10000016, 'bot16', 'nydev', 'bot16@nydev.me');
+select new.reader(10000017, 'bot17', 'nydev', 'bot17@nydev.me');
+select new.reader(10000018, 'bot18', 'nydev', 'bot18@nydev.me');
+select new.reader(10000019, 'bot19', 'nydev', 'bot19@nydev.me');
+select new.reader(10000020, 'bot20', 'nydev', 'bot20@nydev.me');
 
 
 /* setup admin accounts */
@@ -44,26 +44,25 @@ truncate dbo.publisher cascade;
 truncate dbo.book cascade;
 
 /* add books to the library */
-select new.book(00, '05/03/2016', 'El Monster'         , 'Donald' , 'Trump'  , 'Pub1', '', 'Princeton');
-select new.book(01, '05/03/2016', 'Things Happen'      , 'Matthew', 'Warshaw', 'Pub2', '', 'Princeton');
-select new.book(02, '05/03/2016', 'Encyclopedia Alpha' , 'John'   , 'Adams'  , 'Pub1', '', 'Harvard'  );
-select new.book(03, '05/03/2016', 'Encyclopedia Beta'  , 'John'   , 'Adams'  , 'Pub2', '', 'Harvard'  );
-select new.book(04, '05/03/2016', 'Encyclopedia Gamma' , 'John'   , 'Adams'  , 'Pub1', '', 'Harvard'  );
-select new.book(05, '05/03/2016', 'Encyclopedia Theta' , 'John'   , 'Adams'  , 'Pub2', '', 'Harvard'  );
-select new.book(06, '05/03/2016', 'Encyclopedia Iota'  , 'John'   , 'Adams'  , 'Pub1', '', 'Harvard'  );
-select new.book(07, '05/03/2016', 'Encyclopedia Omega' , 'John'   , 'Adams'  , 'Pub2', '', 'Harvard'  );
-select new.book(08, '05/03/2016', 'Life of Pi'         , 'Mary'   , 'Jane'   , 'Pub1', '', 'Soul'     );
-select new.book(09, '05/03/2016', 'The School Bus'     , 'Mary'   , 'Jane'   , 'Pub2', '', 'Soul'     );
-select new.book(10, '05/03/2016', 'Martian War'        , 'Mary'   , 'Jane'   , 'Pub1', '', 'Soul'     );
-select new.book(11, '05/03/2016', 'Data Structures'    , 'Alan'   , 'Turing' , 'Pub2', '', 'Internet' );
-select new.book(12, '05/03/2016', 'Subway Six'         , 'Mary'   , 'Jane'   , 'Pub1', '', 'Soul'     );
-select new.book(13, '05/03/2016', 'Alphabet Soup'      , 'Joseph' , 'Stalin' , 'Pub2', '', 'Princeton');
-select new.book(15, '05/03/2016', 'The Cheaters'       , 'Hillary', 'Clinton', 'Pub1', '', 'Internet' );
-select new.book(16, '05/03/2016', 'Universal History'  , 'John'   , 'Adams'  , 'Pub2', '', 'Princeton');
-select new.book(17, '05/03/2016', 'Python Machines'    , 'Matthew', 'Warshaw', 'Pub1', '', 'City'     );
-select new.book(18, '05/03/2016', 'Computer Arch'      , 'Matthew', 'Warshaw', 'Pub2', '', 'City'     );
-select new.book(19, '05/03/2016', 'How to Linux'       , 'Matthew', 'Warshaw', 'Pub1', '', 'City'     );
-select new.book(20, '05/03/2016', 'I am the Wizard Now', 'Harry'  , 'Potter' , 'Pub2', '', 'Hogwarts' );
+select new.book(1000000000001, '05/03/2016', 'Things Happen'      , 'Matthew', 'Warshaw', 'Pub2', '', 'Princeton');
+select new.book(1000000000002, '05/03/2016', 'Encyclopedia Alpha' , 'John'   , 'Adams'  , 'Pub1', '', 'Harvard'  );
+select new.book(1000000000003, '05/03/2016', 'Encyclopedia Beta'  , 'John'   , 'Adams'  , 'Pub2', '', 'Harvard'  );
+select new.book(1000000000004, '05/03/2016', 'Encyclopedia Gamma' , 'John'   , 'Adams'  , 'Pub1', '', 'Harvard'  );
+select new.book(1000000000005, '05/03/2016', 'Encyclopedia Theta' , 'John'   , 'Adams'  , 'Pub2', '', 'Harvard'  );
+select new.book(1000000000006, '05/03/2016', 'Encyclopedia Iota'  , 'John'   , 'Adams'  , 'Pub1', '', 'Harvard'  );
+select new.book(1000000000007, '05/03/2016', 'Encyclopedia Omega' , 'John'   , 'Adams'  , 'Pub2', '', 'Harvard'  );
+select new.book(1000000000008, '05/03/2016', 'Life of Pi'         , 'Mary'   , 'Jane'   , 'Pub1', '', 'Soul'     );
+select new.book(1000000000009, '05/03/2016', 'The School Bus'     , 'Mary'   , 'Jane'   , 'Pub2', '', 'Soul'     );
+select new.book(1000000000010, '05/03/2016', 'Martian War'        , 'Mary'   , 'Jane'   , 'Pub1', '', 'Soul'     );
+select new.book(1000000000011, '05/03/2016', 'Data Structures'    , 'Alan'   , 'Turing' , 'Pub2', '', 'Internet' );
+select new.book(1000000000012, '05/03/2016', 'Subway Six'         , 'Mary'   , 'Jane'   , 'Pub1', '', 'Soul'     );
+select new.book(1000000000013, '05/03/2016', 'Alphabet Soup'      , 'Joseph' , 'Stalin' , 'Pub2', '', 'Princeton');
+select new.book(1000000000015, '05/03/2016', 'The Cheaters'       , 'Hillary', 'Clinton', 'Pub1', '', 'Internet' );
+select new.book(1000000000016, '05/03/2016', 'Universal History'  , 'John'   , 'Adams'  , 'Pub2', '', 'Princeton');
+select new.book(1000000000017, '05/03/2016', 'Python Machines'    , 'Matthew', 'Warshaw', 'Pub1', '', 'City'     );
+select new.book(1000000000018, '05/03/2016', 'Computer Arch'      , 'Matthew', 'Warshaw', 'Pub2', '', 'City'     );
+select new.book(1000000000019, '05/03/2016', 'How to Linux'       , 'Matthew', 'Warshaw', 'Pub1', '', 'City'     );
+select new.book(1000000000020, '05/03/2016', 'I am the Wizard Now', 'Harry'  , 'Potter' , 'Pub2', '', 'Hogwarts' );
 
 /* create library branches */
 truncate dbo.branch cascade;
