@@ -1,7 +1,7 @@
 /*
  * @author  : Rajan Khullar
  * @created : 04/16/16
- * @updated : 05/04/16
+ * @updated : 05/05/16
  */
 
 create extension if not exists pgcrypto;
@@ -196,7 +196,8 @@ create table map.borrow
 create table map.reserve
 (
   copyID serial references dbo.copy(id),
-  readerID serial references dbo.reader(id)
+  readerID serial references dbo.reader(id),
+  primary key (copyID, readerID)
 );
 
 create view dbv.borrow as

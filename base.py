@@ -139,9 +139,12 @@ class Core:
             n += 1
 
     def status_book_copy(self, branchID, isbn, code):
-        sql = "select n from dbo.copy where branchID=%s and isbn=%s"
-        rows = self.exec(sql, branchID, isbn)
-        return rows[0][0]
+        sql = "select lock from dbo.copy where branchID=%s and isbn=%s and n=%s"
+        rows = self.exec(sql, branchID, isbn, code)
+        if rows:
+            return 'off shelf' if rows[0][0] else 'on shelf'
+        else:
+            return None
 
     def inventory(self):
         # isbn branchID count
@@ -291,6 +294,10 @@ def test_books():
     for o in XCore.call('search_books', 'Pub 1', 'publisher'):
         print(o)
 
+def test_book_status():
+    o = XCore.call('status_book_copy', 1, 1000000000001, 1)
+    print(o)
+
 def test_readers():
     for o in XCore.call('readers'):
         print(o)
@@ -311,4 +318,4 @@ def test_checkout():
     XCore.call('reader_checkout', 1, 1, 1000000000019)
 
 if __name__ == '__main__':
-    test_checkout()
+    test_book_status()
