@@ -72,6 +72,7 @@ insert into dbo.branch("name", address) values
 ('Nanjing World Library', 'Nanjing');
 
 /* fill library with books */
+truncate dbo.copy cascade;
 select new.easy_copy('Things Happen'      );
 select new.easy_copy('Encyclopedia Alpha' );
 select new.easy_copy('Encyclopedia Beta'  );

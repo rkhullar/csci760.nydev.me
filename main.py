@@ -134,7 +134,7 @@ def admin():
 @app.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
-    actions = ['search_books', 'book_checkout', 'book_reserve', 'book_reserve']
+    actions = ['search_books', 'reader_checkout', 'reader_reserve', 'reader_return']
     action = match(actions, request)
 
     search = None
@@ -143,10 +143,19 @@ def home():
         if 'mode' in request.form:
             mode = request.form['mode']
             key  = request.form['key']
-            search = XCore.call('search_books', key, mode)
+            search = XCore.call(action, key, mode)
+
+    if action in ['reader_checkout', 'reader_reserve', 'reader_return']:
+        bid  = int(request.form['branch_id'])
+        isbn = int(request.form['isbn'])
+        XCore.call(action, session['id'], bid, isbn)
 
     return render_template('home.html',
                            name=XCore.call('person', session['id']),
+                           checkouts=XCore.call('reader_checkout_list', session['id']),
+                           reserves=XCore.call('reader_reserve_list', session['id']),
+                           #fines=XCore.call('reader_fines', session['id']),
+                           fines=0,
                            search=search)
 
 # Support Functions

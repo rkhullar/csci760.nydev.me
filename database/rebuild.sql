@@ -187,8 +187,8 @@ create table map.borrow
 (
   copyID serial references dbo.copy(id),
   readerID serial references dbo.reader(id),
-  pickup timestamp not null default now(),
-  return timestamp,
+  pickup date not null default current_date,
+  return date,
   payment money not null default 0,
   primary key (copyID, readerID, pickup)
 );
@@ -196,6 +196,20 @@ create table map.borrow
 create table map.reserve
 (
   copyID serial references dbo.copy(id),
-  readerID serial references dbo.reader(id),
-  record time not null default now()
+  readerID serial references dbo.reader(id)
 );
+
+create view dbv.borrow as
+  select m.readerID, c.branchID, b.isbn, b.title, b.author, m.pickup+20 as duedate
+  from map.borrow m, dbo.copy c, dbv.book b
+  where m.copyID = c.id and c.isbn = b.isbn and m.return is null;
+
+create view dbv.reserve as
+  select m.readerID, c.branchID, b.isbn, b.title, b.author
+  from map.reserve m, dbv.book b, dbo.copy c
+  where m.copyID = c.id and c.isbn = b.isbn;
+
+create view dbv.fines as
+  select sum(current_date - b.duedate)
+  from dbv.borrow b, dbo.reader r
+  where b.readerID = r.id

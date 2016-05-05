@@ -170,6 +170,91 @@ class Core:
         else:
             return 0
 
+    def support_item(self, branch_id, isbn):
+        sql = "select min(n) from dbo.copy where branchID='%s' and isbn='%s' and lock='false'" % (branch_id, isbn)
+        rows = self.exec(sql)
+        if rows:
+            return rows[0][0]
+        return False
+
+    def copy_id(self, branch_id, isbn, code):
+        sql = "select id from dbo.copy where branchID='%s' and isbn='%s' and n='%s'" % (branch_id, isbn, code)
+        rows = self.exec(sql)
+        if rows:
+            return rows[0][0]
+
+    def reader_checkout_list(self, reader_id):
+        # readerID, branchID, isbn, title, author, duedate
+        sql = "select * from dbv.borrow where readerID='%s'" % reader_id
+        rows = self.exec(sql)
+        out = []
+        if rows:
+            for row in rows:
+                x = {'branch_id': row[1], 'isbn': row[2], 'title': row[3], 'author': row[4], 'duedate': row[5]}
+                out.append(x)
+        return out
+
+    def reader_reserve_list(self, reader_id):
+        # readerID, branchID, isbn, title, author
+        sql = "select * from dbv.reserve where readerID='%s'" % reader_id
+        rows = self.exec(sql)
+        out = []
+        if rows:
+            for row in rows:
+                x = {'branch_id': row[1], 'isbn': row[2], 'title': row[3], 'author': row[4]}
+                out.append(x)
+        return out
+
+    def reader_checkout_base(self, reader_id, branch_id, isbn, code):
+        copy_id = self.copy_id(branch_id, isbn, code)
+        # print('copyid = ', copy_id)
+        sql = "insert into map.borrow(readerID, copyID) values ('%s', '%s')" % (reader_id, copy_id)
+        self.cur.execute(sql)
+        self.con.commit()
+
+    def reader_reserve_base(self, reader_id, branch_id, isbn, code):
+        copy_id = self.copy_id(branch_id, isbn, code)
+        # print('copyid = ', copy_id)
+        sql = "insert into map.reserve(readerID, copyID) values ('%s', '%s')" % (reader_id, copy_id)
+        self.cur.execute(sql)
+        self.con.commit()
+
+    def reader_checkout(self, reader_id, branch_id, isbn):
+        # check book copy available
+        code = self.support_item(branch_id, isbn)
+        if not code:
+            return False
+        # check reader borrow (10)
+        cl = self.reader_checkout_list(reader_id)
+        rl = self.reader_reserve_list(reader_id)
+        if len(cl) + len(rl) >= 10:
+            return False
+        # perform the successful checkout
+        self.reader_checkout_base(reader_id, branch_id, isbn, code)
+
+    def reader_reserve(self, reader_id, branch_id, isbn):
+        # check book copy available
+        code = self.support_item(branch_id, isbn)
+        if not code:
+            return False
+        # check reader limit (10)
+        cl = self.reader_checkout_list(reader_id)
+        rl = self.reader_reserve_list(reader_id)
+        if len(cl) + len(rl) >= 10:
+            return False
+        # perform the successful checkout
+        self.reader_reserve_base(reader_id, branch_id, isbn, code)
+
+    def reader_return(self, reader_id, branch_id, isbn):
+        return None
+
+    def reader_fines(self, reader_id):
+        sql = "select fine from dbv.fines where readerID='%s'" % reader_id
+        rows = self.exec(sql)
+        if rows:
+            return rows[0][0]
+        return 0
+
 
 class XCore:
     @staticmethod
@@ -217,5 +302,13 @@ def test_inventory():
     for o in XCore.call('inventory'):
         print(o)
 
+def test_checkout():
+    n = XCore.call('copy_id', 3, 1000000000001, 1)
+    print(n)
+    n = XCore.call('support_item', 3, 1000000000001)
+    print(n)
+    # XCore.call('reader_checkout', 1, 1, 1000000000001)
+    XCore.call('reader_checkout', 1, 1, 1000000000019)
+
 if __name__ == '__main__':
-    test_books()
+    test_checkout()

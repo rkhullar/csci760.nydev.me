@@ -20,7 +20,7 @@
             <option value='Publisher'>
         </datalist><br>
         <label for='key'>Key</label>
-        <input type='text' name='key'>
+        <input type='text' name='key' required>
         <input type='submit' name='search_books' value='Submit'>
     </form>
 
@@ -49,6 +49,80 @@
             </table>
         </div>
     {% endif %}
+
+    <h3>Checkout Book</h3>
+    <form action='' method='post'>
+        <label for='branch_id'>Branch #</label>
+        <input type='number' name='branch_id' required>
+        <label for='isbn'>ISBN</label>
+        <input type='number' name='isbn' required>
+        <input type='submit' name='reader_checkout' value='Submit'>
+    </form>
+
+    <h3>Reserve Book</h3>
+    <form action='' method='post'>
+        <label for='branch_id'>Branch #</label>
+        <input type='number' name='branch_id' required>
+        <label for='isbn'>ISBN</label>
+        <input type='number' name='isbn' required>
+        <input type='submit' name='reader_reserve' value='Submit'>
+    </form>
+
+    <h3>Return Book</h3>
+    <form action='' method='post'>
+        <label for='branch_id'>Branch #</label>
+        <input type='number' name='branch_id' required>
+        <label for='isbn'>ISBN</label>
+        <input type='number' name='isbn' required>
+        <input type='submit' name='reader_return' value='Submit'>
+    </form>
+
+    <div href='#checkouts' id='checkouts'>
+        <h3>Checkouts</h3>
+        <table>
+        <tr>
+            <th>Branch #</th>
+            <th>ISBN</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Due Date</th>
+        </tr>
+            {% for item in checkouts %}
+                <tr>
+                <td>{{ item.branch_id }}</td>
+                <td>{{ item.isbn }}</td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.author }}</td>
+                <td>{{ item.duedate }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div href='#reserves' id='reserves'>
+        <h3>Reservations</h3>
+        <table>
+        <tr>
+            <th>Branch #</th>
+            <th>ISBN</th>
+            <th>Title</th>
+            <th>Author</th>
+        </tr>
+            {% for item in reserves %}
+                <tr>
+                <td>{{ item.branch_id }}</td>
+                <td>{{ item.isbn }}</td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.author }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div href='fines' id='fines'>
+        <h3>Fines</h3>
+        <p>{{ fines }}</p>
+    </div>
 
     <script type='text/javascript' src='/static/jquery.js'></script>
     <script type='text/javascript' src='/static/library.js'></script>
