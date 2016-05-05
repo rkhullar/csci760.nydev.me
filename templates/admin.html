@@ -40,9 +40,6 @@
 
     <h3>Status Book Copy</h3>
     <form action='' method='post'>
-        {% if status %}
-            <p>status: {{ status }}</p>
-        {% endif %}
         <label for='branch_id'>Branch #</label>
         <input type='number' name='branch_id' placeholder='1' required><br>
         <label for='isbn'>ISBN</label>
@@ -51,6 +48,10 @@
         <input type='number' name='code' placeholder='1' required><br>
         <input type='submit' name='status_book_copy' value='Submit'>
     </form>
+
+    {% if status %}
+        <p>status: {{ status }}</p>
+    {% endif %}
 
     <h3>Average Fines Paid</h3>
     <div href='fines'>

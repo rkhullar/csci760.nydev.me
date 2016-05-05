@@ -3,45 +3,55 @@
 <head>
     <meta charset='UTF-8'>
     <title>Home Page</title>
+    <link rel='stylesheet' href='static/library.css'>
 </head>
 <body>
     <h1>Hello {{ name }}!</h1>
-    {% if msg %}
-        <p>{{ msg }}</p>
-    {% endif %}
     <a href='/logout'>Logout</a>
 
+    <h3>Search Books</h3>
     <form action='' method='post'>
-        <input type='submit' name='alpha' value='Alpha'>
-        <input type='submit' name='beta' value='Beta'>
+        <label for='mode'>Mode</label>
+        <input list='mode' name='mode'>
+        <datalist id='mode'>
+            <option value='ISBN'>
+            <option value='Title'>
+            <option value='Author'>
+            <option value='Publisher'>
+        </datalist><br>
+        <label for='key'>Key</label>
+        <input type='text' name='key'>
+        <input type='submit' name='search_books' value='Submit'>
     </form>
 
-    <form action='' method='post'>
-        <input type='submit' name='gamma' value='Gamma'>
-    </form>
+    {% if search %}
+        <button class='toggle' target='search'>Toggle Result</button>
+        <div href='#search' id='search'>
+            <table>
+                <tr>
+                    <th>ISBN</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Publisher</th>
+                    <th>Address</th>
+                    <th>Date</th>
+                </tr>
+                {% for book in search %}
+                    <tr>
+                    <td>{{ book.isbn }}</td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.publisher }}</td>
+                    <td>{{ book.address }}</td>
+                    <td>{{ book.pubdate }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% endif %}
 
-    <div id='books'>
-    <table>
-    <tr>
-        <th>ISBN</th>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Publisher</th>
-        <th>Address</th>
-        <th>Date</th>
-    </tr>
-    {% for book in books %}
-        <tr>
-        <td>{{ book.isbn }}</td>
-        <td>{{ book.title }}</td>
-        <td>{{ book.author }}</td>
-        <td>{{ book.publisher }}</td>
-        <td>{{ book.address }}</td>
-        <td>{{ book.pubdate }}</td>
-        </tr>
-    {% endfor %}
-    </table>
-    </div>
+    <script type='text/javascript' src='/static/jquery.js'></script>
+    <script type='text/javascript' src='/static/library.js'></script>
 
 </body>
 </html>

@@ -93,7 +93,7 @@ def admin():
     actions = ['add_reader', 'add_book_copy', 'status_book_copy']
     action = match(actions, request)
 
-    o1 = None
+    status = None
 
     if action == 'add_reader':
         card = int(request.form['card'])
@@ -118,7 +118,7 @@ def admin():
         branchID = int(request.form['branch_id'])
         isbn     = int(request.form['isbn'])
         code     = int(request.form['code'])
-        o1 = XCore.call(action, branchID, isbn, code)
+        status   = XCore.call(action, branchID, isbn, code)
 
     return render_template('admin.html',
                            name=XCore.call('person', session['id']),
@@ -127,20 +127,29 @@ def admin():
                            branches=XCore.call('branches'),
                            inventory=XCore.call('inventory'),
                            fines=XCore.call('average_fine_paid'),
-                           status=o1)
+                           status=status)
+
 
 # Reader Routes
 @app.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
-    actions = ['alpha', 'beta', 'gamma']
-    msg = match(actions, request)
-    return render_template('home.html',
-                           msg=msg,
-                           name=XCore.call('person', session['id']),
-                           books=XCore.call('books'))
+    actions = ['search_books', 'book_checkout', 'book_reserve', 'book_reserve']
+    action = match(actions, request)
 
-# Support Funcitons
+    search = None
+
+    if action == 'search_books':
+        if 'mode' in request.form:
+            mode = request.form['mode']
+            key  = request.form['key']
+            search = XCore.call('search_books', key, mode)
+
+    return render_template('home.html',
+                           name=XCore.call('person', session['id']),
+                           search=search)
+
+# Support Functions
 def match(search, request):
     o = None
     for item in search:

@@ -94,22 +94,36 @@ class Core:
                 out.append(x)
         return out
 
+    @staticmethod
+    def support_books(rows):
+        out = []
+        if rows:
+            for row in rows:
+                x = {'isbn': row[0],
+                     'pubdate': row[1].strftime('%m/%d/%Y'),
+                     'title': row[2],
+                     'author': row[3],
+                     'publisher': row[4],
+                     'address': row[5]
+                     }
+                out.append(x)
+        return out
+
     def books(self):
         # isbn, pubdate, title, author, publisher, address
         sql = "select * from dbv.book"
         rows = self.exec(sql)
-        out = []
-        if rows:
-            for row in rows:
-                x = {'isbn'     : row[0],
-                     'pubdate'  : row[1].strftime('%m/%d/%Y'),
-                     'title'    : row[2],
-                     'author'   : row[3],
-                     'publisher': row[4],
-                     'address'  : row[5]
-                     }
-                out.append(x)
-        return out
+        return Core.support_books(rows)
+
+    def search_books(self, x, mode='title'):
+        mode = mode.lower()
+        if mode not in ['isbn', 'title', 'author', 'publisher']:
+            return []
+        if mode == 'isbn':
+            x = int(x)
+        sql = "select * from dbv.book where %s='%s'" % (mode, x)
+        rows = self.exec(sql)
+        return Core.support_books(rows)
 
     def add_book_copy(self, branchID, isbn, amt=1):
         sql = "select max(n) from dbo.copy where branchID=%s and isbn=%s"
@@ -184,7 +198,12 @@ def test_xcore():
     print(admin)
 
 def test_books():
+    '''
     for o in XCore.call('books'):
+        print(o)
+    '''
+
+    for o in XCore.call('search_books', 'Pub 1', 'publisher'):
         print(o)
 
 def test_readers():
@@ -199,4 +218,4 @@ def test_inventory():
         print(o)
 
 if __name__ == '__main__':
-    test_inventory()
+    test_books()

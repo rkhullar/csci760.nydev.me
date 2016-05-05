@@ -44,25 +44,25 @@ truncate dbo.publisher cascade;
 truncate dbo.book cascade;
 
 /* add books to the library */
-select new.book(1000000000001, '05/03/2016', 'Things Happen'      , 'Matthew', 'Warshaw', 'Pub2', '', 'Princeton');
-select new.book(1000000000002, '05/03/2016', 'Encyclopedia Alpha' , 'John'   , 'Adams'  , 'Pub1', '', 'Harvard'  );
-select new.book(1000000000003, '05/03/2016', 'Encyclopedia Beta'  , 'John'   , 'Adams'  , 'Pub2', '', 'Harvard'  );
-select new.book(1000000000004, '05/03/2016', 'Encyclopedia Gamma' , 'John'   , 'Adams'  , 'Pub1', '', 'Harvard'  );
-select new.book(1000000000005, '05/03/2016', 'Encyclopedia Theta' , 'John'   , 'Adams'  , 'Pub2', '', 'Harvard'  );
-select new.book(1000000000006, '05/03/2016', 'Encyclopedia Iota'  , 'John'   , 'Adams'  , 'Pub1', '', 'Harvard'  );
-select new.book(1000000000007, '05/03/2016', 'Encyclopedia Omega' , 'John'   , 'Adams'  , 'Pub2', '', 'Harvard'  );
-select new.book(1000000000008, '05/03/2016', 'Life of Pi'         , 'Mary'   , 'Jane'   , 'Pub1', '', 'Soul'     );
-select new.book(1000000000009, '05/03/2016', 'The School Bus'     , 'Mary'   , 'Jane'   , 'Pub2', '', 'Soul'     );
-select new.book(1000000000010, '05/03/2016', 'Martian War'        , 'Mary'   , 'Jane'   , 'Pub1', '', 'Soul'     );
-select new.book(1000000000011, '05/03/2016', 'Data Structures'    , 'Alan'   , 'Turing' , 'Pub2', '', 'Internet' );
-select new.book(1000000000012, '05/03/2016', 'Subway Six'         , 'Mary'   , 'Jane'   , 'Pub1', '', 'Soul'     );
-select new.book(1000000000013, '05/03/2016', 'Alphabet Soup'      , 'Joseph' , 'Stalin' , 'Pub2', '', 'Princeton');
-select new.book(1000000000015, '05/03/2016', 'The Cheaters'       , 'Hillary', 'Clinton', 'Pub1', '', 'Internet' );
-select new.book(1000000000016, '05/03/2016', 'Universal History'  , 'John'   , 'Adams'  , 'Pub2', '', 'Princeton');
-select new.book(1000000000017, '05/03/2016', 'Python Machines'    , 'Matthew', 'Warshaw', 'Pub1', '', 'City'     );
-select new.book(1000000000018, '05/03/2016', 'Computer Arch'      , 'Matthew', 'Warshaw', 'Pub2', '', 'City'     );
-select new.book(1000000000019, '05/03/2016', 'How to Linux'       , 'Matthew', 'Warshaw', 'Pub1', '', 'City'     );
-select new.book(1000000000020, '05/03/2016', 'I am the Wizard Now', 'Harry'  , 'Potter' , 'Pub2', '', 'Hogwarts' );
+select new.book(1000000000001, '05/03/2016', 'Things Happen'      , 'Matthew', 'Warshaw', 'Pub', '1', 'Princeton');
+select new.book(1000000000002, '05/03/2016', 'Encyclopedia Alpha' , 'John'   , 'Adams'  , 'Pub', '2', 'Harvard'  );
+select new.book(1000000000003, '05/03/2016', 'Encyclopedia Beta'  , 'John'   , 'Adams'  , 'Pub', '1', 'Harvard'  );
+select new.book(1000000000004, '05/03/2016', 'Encyclopedia Gamma' , 'John'   , 'Adams'  , 'Pub', '2', 'Harvard'  );
+select new.book(1000000000005, '05/03/2016', 'Encyclopedia Theta' , 'John'   , 'Adams'  , 'Pub', '1', 'Harvard'  );
+select new.book(1000000000006, '05/03/2016', 'Encyclopedia Iota'  , 'John'   , 'Adams'  , 'Pub', '2', 'Harvard'  );
+select new.book(1000000000007, '05/03/2016', 'Encyclopedia Omega' , 'John'   , 'Adams'  , 'Pub', '1', 'Harvard'  );
+select new.book(1000000000008, '05/03/2016', 'Life of Pi'         , 'Mary'   , 'Jane'   , 'Pub', '2', 'Soul'     );
+select new.book(1000000000009, '05/03/2016', 'The School Bus'     , 'Mary'   , 'Jane'   , 'Pub', '1', 'Soul'     );
+select new.book(1000000000010, '05/03/2016', 'Martian War'        , 'Mary'   , 'Jane'   , 'Pub', '2', 'Soul'     );
+select new.book(1000000000011, '05/03/2016', 'Data Structures'    , 'Alan'   , 'Turing' , 'Pub', '1', 'Internet' );
+select new.book(1000000000012, '05/03/2016', 'Subway Six'         , 'Mary'   , 'Jane'   , 'Pub', '2', 'Soul'     );
+select new.book(1000000000013, '05/03/2016', 'Alphabet Soup'      , 'Joseph' , 'Stalin' , 'Pub', '1', 'Princeton');
+select new.book(1000000000015, '05/03/2016', 'The Cheaters'       , 'Hillary', 'Clinton', 'Pub', '2', 'Internet' );
+select new.book(1000000000016, '05/03/2016', 'Universal History'  , 'John'   , 'Adams'  , 'Pub', '1', 'Princeton');
+select new.book(1000000000017, '05/03/2016', 'Python Machines'    , 'Matthew', 'Warshaw', 'Pub', '2', 'City'     );
+select new.book(1000000000018, '05/03/2016', 'Computer Arch'      , 'Matthew', 'Warshaw', 'Pub', '1', 'City'     );
+select new.book(1000000000019, '05/03/2016', 'How to Linux'       , 'Matthew', 'Warshaw', 'Pub', '2', 'City'     );
+select new.book(1000000000020, '05/03/2016', 'I am the Wizard Now', 'Harry'  , 'Potter' , 'Pub', '1', 'Hogwarts' );
 
 /* create library branches */
 truncate dbo.branch cascade;
