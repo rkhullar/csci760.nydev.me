@@ -3,7 +3,7 @@
 """
 @author     :   Rajan Khullar
 @created    :   4/16/16
-@updated    :   5/03/16
+@updated    :   5/08/16
 """
 
 from base import Core, XCore
@@ -90,7 +90,7 @@ def admin_deactivate():
 @app.route('/admin', methods=['GET', 'POST'])
 @admin_required
 def admin():
-    actions = ['add_reader', 'add_book_copy', 'status_book_copy']
+    actions = ['add_reader', 'add_book', 'add_book_copy', 'status_book_copy']
     action = match(actions, request)
 
     status = None
@@ -107,6 +107,15 @@ def admin():
         if request.form['address'].strip():
             address = request.form['address']
         XCore.call(action, card, fname, lname, email, phone, address)
+
+    if action == 'add_book':
+        isbn = int(request.form['isbn'])
+        pubdate = request.form['pubdate']
+        title = request.form['title']
+        author = request.form['author'].split(' ')
+        author_fname = author[0]
+        author_lname = author[1]
+        XCore.call(action, isbn, pubdate, title, author_fname, author_lname)
 
     if action == 'add_book_copy':
         branchID = int(request.form['branch_id'])

@@ -3,12 +3,13 @@
 """
 @author     :   Rajan Khullar
 @created    :   4/24/16
-@updated    :   5/04/16
+@updated    :   5/08/16
 """
 
 import sys, psycopg2, hashlib, datetime
 from local.config import auth
-from model import Person
+
+# from model import Person
 
 
 class Core:
@@ -124,6 +125,9 @@ class Core:
         sql = "select * from dbv.book where %s='%s'" % (mode, x)
         rows = self.exec(sql)
         return Core.support_books(rows)
+
+    def add_book(self, isbn, pubdate, title, author_fname, author_lname, publish_fname='Pub', publish_lname='3', publish_address='Princeton'):
+        self.exec("select new.book('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", isbn, pubdate, title, author_fname, author_lname, publish_fname, publish_lname, publish_address)
 
     def add_book_copy(self, branchID, isbn, amt=1):
         sql = "select max(n) from dbo.copy where branchID=%s and isbn=%s"

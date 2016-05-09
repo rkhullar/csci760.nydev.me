@@ -1,7 +1,7 @@
 /*
  * @author  : Rajan Khullar
  * @created : 04/16/16
- * @updated : 05/05/16
+ * @updated : 05/08/16
  */
 
 create extension if not exists pgcrypto;
@@ -39,11 +39,12 @@ create table dbo.reader
 (
   id serial references dbo.actor(id),
   card numeric(8, 0) unique not null,
+  payment money not null default 0,
   primary key (id)
 );
 
 create view dbv.reader as
-  select a.id, r.card, a.firstname, a.lastname, a.email, a.phone, a.address, a.password
+  select a.id, r.card, a.firstname, a.lastname, a.email, a.phone, a.address, a.password, r.payment
   from dbo.actor a, dbo.reader r
   where a.id = r.id;
 
@@ -189,7 +190,6 @@ create table map.borrow
   readerID serial references dbo.reader(id),
   pickup date not null default current_date,
   return date,
-  payment money not null default 0,
   primary key (copyID, readerID, pickup)
 );
 
@@ -201,7 +201,7 @@ create table map.reserve
 );
 
 create view dbv.borrow as
-  select m.readerID, c.branchID, b.isbn, b.title, b.author, m.pickup+20 as duedate
+  select m.readerID, m.copyID, c.branchID, b.isbn, b.title, b.author, m.pickup, m.pickup+20 as duedate
   from map.borrow m, dbo.copy c, dbv.book b
   where m.copyID = c.id and c.isbn = b.isbn and m.return is null;
 
