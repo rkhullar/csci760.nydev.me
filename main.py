@@ -3,7 +3,7 @@
 """
 @author     :   Rajan Khullar
 @created    :   4/16/16
-@updated    :   5/08/16
+@updated    :   5/09/16
 """
 
 from base import Core, XCore
@@ -114,7 +114,9 @@ def admin():
         title = request.form['title']
         author = request.form['author'].split(' ')
         author_fname = author[0]
-        author_lname = author[1]
+        author_lname = ''
+        if len(author) > 1:
+            author_lname = author[1]
         XCore.call(action, isbn, pubdate, title, author_fname, author_lname)
 
     if action == 'add_book_copy':
@@ -154,10 +156,14 @@ def home():
             key  = request.form['key']
             search = XCore.call(action, key, mode)
 
-    if action in ['reader_checkout', 'reader_reserve', 'reader_return']:
+    if action in ['reader_checkout', 'reader_reserve']:
         bid  = int(request.form['branch_id'])
         isbn = int(request.form['isbn'])
         XCore.call(action, session['id'], bid, isbn)
+
+    if action == 'reader_return':
+        cid = int(request.form['copy_id'])
+        XCore.call(action, session['id'], cid)
 
     return render_template('home.html',
                            name=XCore.call('person', session['id']),

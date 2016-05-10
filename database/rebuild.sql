@@ -1,7 +1,7 @@
 /*
  * @author  : Rajan Khullar
  * @created : 04/16/16
- * @updated : 05/08/16
+ * @updated : 05/09/16
  */
 
 create extension if not exists pgcrypto;
@@ -153,10 +153,10 @@ create table dbo.copy
 );
 
 create view dbv.inventory as
-  select c.isbn, b.id as branchID, count(*)
-  from dbo.copy c, dbo.branch b
-  where c.branchID = b.id
-  group by c.isbn, b.id
+  select c.isbn, o.title, b.id as branchID, count(*)
+  from dbo.copy c, dbo.branch b, dbo.book o
+  where c.branchID = b.id and c.isbn = o.isbn
+  group by c.isbn, o.title, b.id
   order by c.isbn, b.id;
 
 create function new.copy(isbn numeric(13,0), branchID integer, amt integer)
@@ -206,7 +206,7 @@ create view dbv.borrow as
   where m.copyID = c.id and c.isbn = b.isbn and m.return is null;
 
 create view dbv.reserve as
-  select m.readerID, c.branchID, b.isbn, b.title, b.author
+  select m.readerID, m.copyID, c.branchID, b.isbn, b.title, b.author
   from map.reserve m, dbv.book b, dbo.copy c
   where m.copyID = c.id and c.isbn = b.isbn;
 

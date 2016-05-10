@@ -144,12 +144,14 @@
         <table>
         <tr>
             <th>ISBN</th>
+            <th>Title</th>
             <th>Branch</th>
             <th>Count</th>
         </tr>
             {% for item in inventory %}
                 <tr>
                 <td>{{ item.isbn }}</td>
+                <td>{{ item.title }}</td>
                 <td>{{ item.bid }}</td>
                 <td>{{ item.amt }}</td>
                 </tr>

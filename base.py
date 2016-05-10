@@ -3,7 +3,7 @@
 """
 @author     :   Rajan Khullar
 @created    :   4/24/16
-@updated    :   5/08/16
+@updated    :   5/09/16
 """
 
 import sys, psycopg2, hashlib, datetime
@@ -127,7 +127,8 @@ class Core:
         return Core.support_books(rows)
 
     def add_book(self, isbn, pubdate, title, author_fname, author_lname, publish_fname='Pub', publish_lname='3', publish_address='Princeton'):
-        self.exec("select new.book('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')", isbn, pubdate, title, author_fname, author_lname, publish_fname, publish_lname, publish_address)
+        self.exec("select new.book(%s, %s, %s, %s, %s, %s, %s, %s)", isbn, pubdate, title, author_fname, author_lname, publish_fname, publish_lname, publish_address)
+        self.commit()
 
     def add_book_copy(self, branchID, isbn, amt=1):
         sql = "select max(n) from dbo.copy where branchID=%s and isbn=%s"
@@ -151,12 +152,12 @@ class Core:
             return None
 
     def inventory(self):
-        # isbn branchID count
+        # isbn title branchID count
         rows = self.exec("select * from dbv.inventory")
         out = []
         if rows:
             for row in rows:
-                x = {'isbn': row[0], 'bid': row[1], 'amt': row[2]}
+                x = {'isbn': row[0], 'title': row[1], 'bid': row[2], 'amt': row[3]}
                 out.append(x)
         return out
 
@@ -191,24 +192,24 @@ class Core:
             return rows[0][0]
 
     def reader_checkout_list(self, reader_id):
-        # readerID, branchID, isbn, title, author, duedate
+        # readerID, copyID, branchID, isbn, title, author, duedate
         sql = "select * from dbv.borrow where readerID='%s'" % reader_id
         rows = self.exec(sql)
         out = []
         if rows:
             for row in rows:
-                x = {'branch_id': row[1], 'isbn': row[2], 'title': row[3], 'author': row[4], 'duedate': row[5]}
+                x = {'copy_id': row[1], 'branch_id': row[2], 'isbn': row[3], 'title': row[4], 'author': row[5], 'duedate': row[6]}
                 out.append(x)
         return out
 
     def reader_reserve_list(self, reader_id):
-        # readerID, branchID, isbn, title, author
+        # readerID, copyID, branchID, isbn, title, author
         sql = "select * from dbv.reserve where readerID='%s'" % reader_id
         rows = self.exec(sql)
         out = []
         if rows:
             for row in rows:
-                x = {'branch_id': row[1], 'isbn': row[2], 'title': row[3], 'author': row[4]}
+                x = {'copy_id': row[1], 'branch_id': row[2], 'isbn': row[3], 'title': row[4], 'author': row[5]}
                 out.append(x)
         return out
 
@@ -252,7 +253,10 @@ class Core:
         # perform the successful checkout
         self.reader_reserve_base(reader_id, branch_id, isbn, code)
 
-    def reader_return(self, reader_id, branch_id, isbn):
+    def reader_return(self, reader_id, copy_id):
+        sql = "update map.borrow set return=current_date where copyID='%s' and readerID='%s' and return is null" % (reader_id, copy_id)
+        self.cur.execute(sql)
+        self.commit()
         return None
 
     def reader_fines(self, reader_id):
@@ -289,6 +293,9 @@ def test_xcore():
     admin = XCore.call('admin', id)
     print(admin)
 
+def test_add_book():
+    XCore.call('add_book', 57864, '01/01/1999', 'Beta', 'The', 'Beta')
+
 def test_books():
     '''
     for o in XCore.call('books'):
@@ -322,4 +329,4 @@ def test_checkout():
     XCore.call('reader_checkout', 1, 1, 1000000000019)
 
 if __name__ == '__main__':
-    test_book_status()
+    test_add_book()
