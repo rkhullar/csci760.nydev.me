@@ -254,7 +254,8 @@ class Core:
         self.reader_reserve_base(reader_id, branch_id, isbn, code)
 
     def reader_return(self, reader_id, copy_id):
-        sql = "update map.borrow set return=current_date where copyID='%s' and readerID='%s' and return is null" % (reader_id, copy_id)
+        sql = "update map.borrow set return=current_date where copyID='%s' and readerID='%s' and return is null" % (copy_id, reader_id)
+        # print(sql)
         self.cur.execute(sql)
         self.commit()
         return None
