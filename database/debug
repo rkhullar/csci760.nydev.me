@@ -1,0 +1,2 @@
+psql -d csci760 < rebuild.sql
+psql -d csci760 < inflate.sql

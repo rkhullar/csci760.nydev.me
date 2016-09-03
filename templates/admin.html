@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Admin Home</title>
+    <link rel='stylesheet' href='static/library.css'>
+</head>
+<body>
+    <h1>Welcome {{ name }}!</h1>
+
+    <a href='/logout'>Logout</a>
+    <a href='/admin/deactivate'>Normal</a>
+
+    <h3>Add Reader</h3>
+    <form action='' method='post'>
+        <label for='card'>Card #</label>
+        <input type='number' name='card'  placeholder='10001234' required><br>
+        <label for='fname lname'>Name</label>
+        <input type='text' name='fname' placeholder='First' required>
+        <input type='text' name='lname' placeholder='Last' required><br>
+        <label for='email'>Email</label>
+        <input type='text' name='email' placeholder='someone@example.com' required><br>
+        <label for='phone'>Phone #</label>
+        <input type='number' name='phone' placeholder='1234567890'><br>
+        <label for='address'>Address</label>
+        <input type='text' name='address'><br>
+        <input type='submit' name='add_reader' value='Submit'>
+    </form>
+
+    <h3>Add Book Copy</h3>
+    <form action='' method='post'>
+        <label for='branch_id'>Branch #</label>
+        <input type='number' name='branch_id' placeholder='1' required><br>
+        <label for='isbn'>ISBN</label>
+        <input type='number' name='isbn' placeholder='1000000012345' required><br>
+        <label for='amount'>Amount</label>
+        <input type='number' name='amount' placeholder='1' required><br>
+        <input type='submit' name='add_book_copy' value='Submit'>
+    </form>
+
+    <h3>Status Book Copy</h3>
+    <form action='' method='post'>
+        <label for='branch_id'>Branch #</label>
+        <input type='number' name='branch_id' placeholder='1' required><br>
+        <label for='isbn'>ISBN</label>
+        <input type='number' name='isbn' placeholder='1000000012345' required><br>
+        <label for='code'>Code</label>
+        <input type='number' name='code' placeholder='1' required><br>
+        <input type='submit' name='status_book_copy' value='Submit'>
+    </form>
+
+    {% if status %}
+        <p>status: {{ status }}</p>
+    {% endif %}
+
+    <h3>Average Fines Paid</h3>
+    <div href='fines'>
+        <p>{{ fines }}</p>
+    </div>
+
+    <h3>Toggle Views</h3>
+    <button class='toggle' target='books'>Books</button>
+    <button class='toggle' target='readers'>Readers</button>
+    <button class='toggle' target='branches'>Branches</button>
+    <button class='toggle' target='inventory'>Inventory</button>
+
+    <div href='#readers' id='readers'>
+        <table>
+            <tr>
+                <th>Card #</th>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Address</th>
+            </tr>
+            {% for reader in readers %}
+                <tr>
+                <td>{{ reader.card }}</td>
+                <td>{{ reader.lname }}</td>
+                <td>{{ reader.fname }}</td>
+                <td>{{ reader.email }}</td>
+                <td>{{ reader.phone }}</td>
+                <td>{{ reader.address }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div href='#books' id='books'>
+        <table>
+            <tr>
+                <th>ISBN</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Publisher</th>
+                <th>Address</th>
+                <th>Date</th>
+            </tr>
+            {% for book in books %}
+                <tr>
+                <td>{{ book.isbn }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.publisher }}</td>
+                <td>{{ book.address }}</td>
+                <td>{{ book.pubdate }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div href='#branches' id='branches'>
+        <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Address</th>
+        </tr>
+            {% for branch in branches %}
+                <tr>
+                <td>{{ branch.id }}</td>
+                <td>{{ branch.name }}</td>
+                <td>{{ branch.address }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div href='#inventory' id='inventory'>
+        <table>
+        <tr>
+            <th>ISBN</th>
+            <th>Branch</th>
+            <th>Count</th>
+        </tr>
+            {% for item in inventory %}
+                <tr>
+                <td>{{ item.isbn }}</td>
+                <td>{{ item.bid }}</td>
+                <td>{{ item.amt }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <script type='text/javascript' src='/static/jquery.js'></script>
+    <script type='text/javascript' src='/static/library.js'></script>
+
+</body>
+</html>
